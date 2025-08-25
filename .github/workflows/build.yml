@@ -5,7 +5,7 @@ name: build
 on: [push]
 
 permissions:
-  contents: write   # ✅ Required so actions can push to branches
+  contents: write   # still needed for artifact steps
 
 jobs:
   build:
@@ -50,9 +50,9 @@ jobs:
       - name: Deploy PDF to build branch
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          personal_token: ${{ secrets.GH_PAT }}   # ✅ PAT instead of GITHUB_TOKEN
           publish_dir: ./github_deploy
-          publish_branch: build   # ✅ pushes PDF to "build" branch
+          publish_branch: build
           force_orphan: true
           enable_jekyll: true
 
@@ -69,3 +69,4 @@ jobs:
         env:
           key: main
           files: index.html CNAME
+
